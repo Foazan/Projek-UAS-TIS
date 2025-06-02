@@ -24,7 +24,7 @@ class GatewayController extends Controller
             $decoded = JWT::decode($token, new Key(env('JWT_SECRET'), 'HS256'));
         
             $client = new Client();
-            $response = $client->request('GET', 'http://localhost:8002/arts');
+            $response = $client->request('GET', 'http://art-service:8000/arts');
             $data = json_decode($response->getBody(), true);
             return response()->json($data);
         } catch (\Exception $e) {
@@ -78,7 +78,7 @@ class GatewayController extends Controller
             $uploadResult = json_decode($upload->getBody(), true);
 
             // Kirim ke art-service
-            $artResponse = $client->request('POST', 'http://localhost:8002/arts', [
+            $artResponse = $client->request('POST', 'http://art-service:8000/arts', [
                 'form_params' => [
                     'title' => $title,
                     'description' => $description,
@@ -114,7 +114,7 @@ class GatewayController extends Controller
             $user_id = $decoded->sub;
 
             $client = new \GuzzleHttp\Client();
-            $response = $client->delete("http://localhost:8002/arts/{$id}", [
+            $response = $client->delete("http://art-service:8000/arts/{$id}", [
                 'headers' => ['X-User-ID' => $user_id]
             ]);
 
@@ -128,7 +128,7 @@ class GatewayController extends Controller
     {
         try {
             $client = new Client();
-            $response = $client->get("http://localhost:8002/arts/user/{$user_id}");
+            $response = $client->get("http://art-service:8000/arts/user/{$user_id}");
 
             return response()->json(json_decode($response->getBody()), $response->getStatusCode());
         } catch (\Exception $e) {
@@ -140,7 +140,7 @@ class GatewayController extends Controller
     {
         try {
             $client = new Client();
-            $response = $client->get("http://localhost:8002/arts/{$id}");
+            $response = $client->get("http://art-service:8000/arts/{$id}");
 
             return response()->json(json_decode($response->getBody()), $response->getStatusCode());
         } catch (\Exception $e) {
