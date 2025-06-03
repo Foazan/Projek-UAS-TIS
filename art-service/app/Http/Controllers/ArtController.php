@@ -32,7 +32,7 @@ class ArtController extends Controller
             'user_id' => $userId
         ]);
 
-        return response()->json(['message' => 'Karya berhasil ditambahkan', 'data' => $art]);
+        return response()->json(['message' => 'Art uploaded successful', 'data' => $art]);
     }
     
 public function destroy($id, Request $request)
